@@ -24,12 +24,12 @@ app.use(cookieParser());
 app.use("/auth", AuthRouter);
 
 // routes configurations
-app.use("/", authProtectAboveStudent as any, StudentRouter);
-app.use("/", authProtectAboveDemo as any, CourseRouter);
-app.use("/", authProtectAboveDemo as any, LectureRouter);
-app.use("/", authProtectAboveDemo as any, StudentGroupRouter);
-app.use("/", authProtectAboveDemo as any, UserDetailsRouter);
-app.use("/", authProtectAboveLecturer as any, UserAddRouter);
+app.use("/", authProtectAboveStudent, StudentRouter);
+app.use("/", authProtectAboveDemo, CourseRouter);
+app.use("/", authProtectAboveDemo, LectureRouter);
+app.use("/", authProtectAboveDemo, StudentGroupRouter);
+app.use("/", authProtectAboveDemo, UserDetailsRouter);
+app.use("/", authProtectAboveLecturer, UserAddRouter);
 
 
 

@@ -14,9 +14,9 @@ export const authProtectAboveStudent = (req: Request, res: Response, next: NextF
         next();
     }else{
         if (req.method === "GET") {
-            return res.redirect("/auth/login");
+            res.redirect("/auth/login");
         }else{
-            return res.status(401).json({message: "Unauthorized"});
+            res.status(401).json({message: "Unauthorized"});
         }
     }
     
@@ -35,9 +35,9 @@ export const authProtectAboveDemo = (req: Request, res: Response, next: NextFunc
         next();
     }else{
         if (req.method === "GET") {
-            return res.redirect("/auth/login");
+            res.redirect("/auth/login");
         }else{
-            return res.status(401).json({message: "Unauthorized"});
+            res.status(401).json({message: "Unauthorized"});
         }
     }
     
@@ -57,9 +57,9 @@ export const authProtectAboveLecturer = (req: Request, res: Response, next: Next
         next();
     }else{
         if (req.method === "GET") {
-            return res.redirect("/auth/login");
+            res.redirect("/auth/login");
         }else{
-            return res.status(401).json({message: "Unauthorized"});
+            res.status(401).json({message: "Unauthorized"});
         }
     }
     
