@@ -39,6 +39,7 @@ LectureRouter.post("/add-lecture", async (req, res) => {
 
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: "Failed to add lecture" });
     }
     
