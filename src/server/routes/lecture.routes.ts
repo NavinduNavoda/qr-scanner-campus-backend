@@ -14,7 +14,7 @@ LectureRouter.post("/add-lecture", async (req, res) => {
 
     try {
         const stmt = sqliteDB.prepare(
-            `INSERT INTO lecture (course_id, lecture_user_id, date, from, to, student_group_id) VALUES (?, ?, ?, ?, ?, ?)`
+            `INSERT INTO lecture (course_id, lecture_user_id, date, 'from', 'to', student_group_id) VALUES (?, ?, ?, ?, ?, ?)`
         );
         const result: any = stmt.run(
             course_id, lecture_user_id, date, from, to, student_group_id
