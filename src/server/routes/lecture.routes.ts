@@ -92,7 +92,7 @@ LectureRouter.post("/mark-attendance", async (req, res) => {
         const markAttendanceStmt = sqliteDB.prepare(
             `UPDATE attendance SET attend = ? WHERE lec_id = ? AND student_user_id = ?`
         );
-        markAttendanceStmt.run(true, lec_id, student.id);
+        markAttendanceStmt.run(1, lec_id, student.id);
 
         res.status(200).json({ message: "Attendance marked successfully" });
 
