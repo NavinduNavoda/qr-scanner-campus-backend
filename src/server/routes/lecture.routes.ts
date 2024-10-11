@@ -97,6 +97,7 @@ LectureRouter.post("/mark-attendance", async (req, res) => {
         res.status(200).json({ message: "Attendance marked successfully" });
 
     } catch (error) {
+        console.log("mark attendace error" , error);
         res.status(500).json({ error: "Failed to mark attendance" });
     }
 });
