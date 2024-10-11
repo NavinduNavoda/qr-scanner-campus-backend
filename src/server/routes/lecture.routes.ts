@@ -45,7 +45,7 @@ LectureRouter.post("/add-lecture", async (req, res) => {
             insertAttendanceStmt.run(result.lastInsertRowid, student_group_id, student.student_user_id, false);
         }
 
-        res.status(201).json({ message: "Lecture added successfully" });
+        res.status(201).json({ message: "Lecture added successfully", lecId: result.lastInsertRowid });
 
 
 
