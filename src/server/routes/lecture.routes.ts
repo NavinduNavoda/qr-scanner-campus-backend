@@ -69,8 +69,7 @@ LectureRouter.get("/get-lectures", async (req, res) => {
 });
 
 LectureRouter.post("/mark-attendance", async (req, res) => {
-    const {sc_number} = req.body;
-    const {lec_id} = req.body;
+    const {sc_number, lec_id} = req.body;
 
     if (!sc_number || !lec_id) {
         res.status(400).json({ error: "All fields are required" });
