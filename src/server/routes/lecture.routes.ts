@@ -81,6 +81,8 @@ LectureRouter.post("/mark-attendance", async (req, res) => {
         const getStudentStmt = sqliteDB.prepare(
             `SELECT id FROM user WHERE sc_number = ?`
         );
+        console.log("scnumType", typeof sc_number);
+        console.log("lec_id", lec_id);
         const student: any = getStudentStmt.get(sc_number);
 
         if (!student) {
