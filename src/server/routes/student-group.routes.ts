@@ -18,7 +18,7 @@ StudentGroupRouter.post("/add-student-group", async (req, res) => {
     
 });
 
-StudentGroupRouter.post("/add-student-group", async (req, res) => {
+StudentGroupRouter.post("/add-student-to-group", async (req, res) => {
     
     const { student_user_id, group_id } = req.body;
 
