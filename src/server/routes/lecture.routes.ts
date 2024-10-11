@@ -9,10 +9,19 @@ LectureRouter.post("/add-lecture", async (req, res) => {
 
     console.log("lec create body", req.body);
 
-    if (!course_id || !lecture_user_id || !date || !from || !to || !student_group_id) {
-        res.status(400).json({ error: "All fields are required" });
-        return;
-    }
+    // if (!course_id || !lecture_user_id || !date || !from || !to || !student_group_id) {
+    //     const missingFields = [];
+    //     if (!course_id) missingFields.push("course_id");
+    //     if (!lecture_user_id) missingFields.push("lecture_user_id");
+    //     if (!date) missingFields.push("date");
+    //     if (!from) missingFields.push("from");
+    //     if (!to) missingFields.push("to");
+    //     if (!student_group_id) missingFields.push("student_group_id");
+
+    //     res.status(400).json({ error: "All fields are required", missingFields });
+    //     // res.status(400).json({ error: "All fields are required" });
+    //     return;
+    // }
 
     try {
         const stmt = sqliteDB.prepare(
