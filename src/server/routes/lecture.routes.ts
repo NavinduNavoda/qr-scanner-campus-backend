@@ -89,6 +89,16 @@ LectureRouter.post("/mark-attendance", async (req, res) => {
             return;
         }
 
+        const checkAttendanceStmt = sqliteDB.prepare(
+            `SELECT * FROM attendance WHERE lec_id = ? AND student_user_id = ?`
+        );
+        const attendance = checkAttendanceStmt.get(lec_id, student.id);
+
+        if (!attendance) {
+            res.status(400).json({ error: "Attendance record not found for this lecture and student" });
+            return;
+        }
+
         const markAttendanceStmt = sqliteDB.prepare(
             `UPDATE attendance SET attend = ? WHERE lec_id = ? AND student_user_id = ?`
         );
