@@ -42,7 +42,7 @@ LectureRouter.post("/add-lecture", async (req, res) => {
         );
 
         for (const student of students) {
-            insertAttendanceStmt.run(result.lastInsertRowid, student_group_id, student.student_user_id, false);
+            insertAttendanceStmt.run(result.lastInsertRowid, student_group_id, student.student_user_id, 0);
         }
 
         res.status(201).json({ message: "Lecture added successfully", lecId: result.lastInsertRowid });
