@@ -7,6 +7,8 @@ export const LectureRouter = Router();
 LectureRouter.post("/add-lecture", async (req, res) => {
     const { course_id, lecture_user_id, date, from, to, student_group_id } = req.body;
 
+    console.log("lec create body", req.body);
+
     if (!course_id || !lecture_user_id || !date || !from || !to || !student_group_id) {
         res.status(400).json({ error: "All fields are required" });
         return;
