@@ -10,6 +10,8 @@ import { LectureRouter } from './server/routes/lecture.routes';
 import { StudentGroupRouter } from './server/routes/student-group.routes';
 import { UserDetailsRouter } from './server/routes/users-details.routes';
 import { UserAddRouter } from './server/routes/users-add.routes';
+import { UserDelRouter } from './server/routes/users-delete.routes';
+import { UserModifyRouter } from './server/routes/users-modify.routes';
 
 const app = express();
 const port = 3000;
@@ -30,6 +32,8 @@ app.use("/", authProtectAboveDemo, LectureRouter);
 app.use("/", authProtectAboveDemo, StudentGroupRouter);
 app.use("/", authProtectAboveDemo, UserDetailsRouter);
 app.use("/", authProtectAboveLecturer, UserAddRouter);
+app.use("/", authProtectAboveLecturer, UserDelRouter);
+app.use("/", authProtectAboveLecturer, UserModifyRouter);
 
 
 

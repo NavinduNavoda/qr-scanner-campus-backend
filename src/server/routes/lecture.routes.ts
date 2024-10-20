@@ -121,12 +121,37 @@ LectureRouter.get("/get-attendance", async (req, res) => {
             return;
         }
 
-        const stmt = sqliteDB.prepare(
-            `SELECT * FROM attendance WHERE lec_id = ?`
+        const lecStmt = sqliteDB.prepare(
+            `SELECT 
+            lecture.id as lecture_id, 
+            lecture.date, 
+            lecture.from, 
+            lecture.to, 
+            course.course_unit_number, 
+            course.course_unit_name, 
+            user.name as lecturer_name, 
+            student_group.name as student_group_name 
+            FROM lecture 
+            JOIN course ON lecture.course_id = course.id 
+            JOIN user ON lecture.lecture_user_id = user.id 
+            JOIN student_group ON lecture.student_group_id = student_group.id 
+            WHERE lecture.id = ?`
         );
-        const result = stmt.all(lec_id);
+        const lecDetails = lecStmt.get(lec_id);
 
-        res.status(200).json(result);
+
+        const stmt = sqliteDB.prepare(
+            `SELECT 
+                attendance.*, 
+                user.name as student_name, 
+                user.sc_number 
+            FROM attendance 
+            JOIN user ON attendance.student_user_id = user.id 
+            WHERE attendance.lec_id = ?`
+        );
+        const attendanceDetails = stmt.all(lec_id);
+
+        res.status(200).json({ lecDetails, attendanceDetails });
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch attendance" });
     }

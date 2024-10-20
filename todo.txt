@@ -1,0 +1,4 @@
+[+] user delete routes
+[+] lecture id,
+[+] delete, modify users
+[+] get-attendance student-name ect.
