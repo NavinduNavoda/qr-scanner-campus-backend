@@ -112,7 +112,7 @@ LectureRouter.post("/mark-attendance", async (req, res) => {
     }
 });
 
-LectureRouter.get("/get-attendance", async (req, res) => {
+LectureRouter.post("/get-attendance", async (req, res) => {
     try {
         const { lec_id } = req.body;
 
@@ -125,8 +125,8 @@ LectureRouter.get("/get-attendance", async (req, res) => {
             `SELECT 
             lecture.id as lecture_id, 
             lecture.date, 
-            lecture.from, 
-            lecture.to, 
+            lecture.'from', 
+            lecture.'to', 
             course.course_unit_number, 
             course.course_unit_name, 
             user.name as lecturer_name, 
@@ -153,6 +153,7 @@ LectureRouter.get("/get-attendance", async (req, res) => {
 
         res.status(200).json({ lecDetails, attendanceDetails });
     } catch (error) {
+        console.log("get attendance error", error);
         res.status(500).json({ error: "Failed to fetch attendance" });
     }
 });
