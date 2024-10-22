@@ -36,3 +36,51 @@ UserDetailsRouter.get('/lecturers', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch lecturers' });
     }
 });
+
+UserDetailsRouter.post('/single-student', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const stmt = sqliteDB.prepare("SELECT id, name, email, phone, sc_number, role, isActive, created_at FROM user WHERE id = ? AND role = ?");
+        const student = stmt.get(id, 'student');
+        
+        if (student) {
+            res.json(student);
+        } else {
+            res.status(404).json({ error: 'Student not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch student' });
+    }
+});
+
+UserDetailsRouter.post('/single-lecturer', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const stmt = sqliteDB.prepare("SELECT id, name, email, phone, sc_number, role, isActive, created_at FROM user WHERE id = ? AND role = ?");
+        const lecturer = stmt.get(id, 'lecturer');
+        
+        if (lecturer) {
+            res.json(lecturer);
+        } else {
+            res.status(404).json({ error: 'Lecturer not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch lecturer' });
+    }
+});
+
+UserDetailsRouter.post('/single-demo', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const stmt = sqliteDB.prepare("SELECT id, name, email, phone, sc_number, role, isActive, created_at FROM user WHERE id = ? AND role = ?");
+        const demo = stmt.get(id, 'demo');
+        
+        if (demo) {
+            res.json(demo);
+        } else {
+            res.status(404).json({ error: 'Demo not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch demo' });
+    }
+});
