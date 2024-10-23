@@ -68,6 +68,65 @@ LectureRouter.get("/get-lectures", async (req, res) => {
     }
 });
 
+
+LectureRouter.post("/get-lectures-by-date", async (req, res) => {
+    const { startDate, endDate } = req.body;
+
+    if (!startDate || !endDate) {
+        res.status(400).json({ error: "Start date and end date are required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT * FROM lecture WHERE date BETWEEN ? AND ?`
+        );
+        const result = stmt.all(startDate, endDate);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch lectures" });
+    }
+});
+
+LectureRouter.post("/get-lectures-by-course", async (req, res) => {
+    const { course_id } = req.body;
+
+    if (!course_id) {
+        res.status(400).json({ error: "Course ID is required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT * FROM lecture WHERE course_id = ?`
+        );
+        const result = stmt.all(course_id);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch lectures" });
+    }
+});
+
+LectureRouter.post("/get-lectures-by-course-and-date", async (req, res) => {
+    const { course_id, startDate, endDate } = req.body;
+
+    if (!course_id || !startDate || !endDate) {
+        res.status(400).json({ error: "Course ID, start date, and end date are required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT * FROM lecture WHERE course_id = ? AND date BETWEEN ? AND ?`
+        );
+        const result = stmt.all(course_id, startDate, endDate);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch lectures" });
+    }
+});
+
+
 LectureRouter.post("/mark-attendance", async (req, res) => {
     const {sc_number, lec_id} = req.body;
 

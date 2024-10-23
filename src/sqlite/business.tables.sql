@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS "lecture" (
   course_id INTEGER,
   lecture_user_id INTEGER,
   date TEXT,
-  "from" TEXT,
-  "to" TEXT,
+  "from" DATE,
+  "to" DATE,
   student_group_id INTEGER
 );
 
