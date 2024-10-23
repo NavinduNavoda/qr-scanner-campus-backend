@@ -42,6 +42,18 @@ StudentGroupRouter.post("/add-student-to-group", async (req, res) => {
         return
     }
 
+
+    const assignCheckStmt = sqliteDB.prepare(`
+        SELECT COUNT(*) as count FROM student_group_assign WHERE student_user_id = ? AND group_id = ?
+    `);
+    const assignCheckResult: any = assignCheckStmt.get(student_user_id, group_id);
+
+    if (assignCheckResult.count > 0) {
+        res.status(400).json({ message: "Student already assigned to the relevant group" });
+        return;
+    }
+
+
     const insertStmt = sqliteDB.prepare(`
         INSERT INTO student_group_assign (student_user_id, group_id) VALUES (?, ?)
     `);
