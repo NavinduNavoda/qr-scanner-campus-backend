@@ -34,12 +34,12 @@ UserAddRouter.post('/add-student', async (req, res) => {
 UserAddRouter.post('/add-lecturer', async (req, res) => {
     const { username, password, name, email, phone } = req.body;
     try {
-    const stmt = sqliteDB.prepare(
-        `INSERT INTO user (username, password, session_id, csrf_token, name, email, phone, role) VALUES (?, ?, NULL, NULL, ?, ?, ?, 'lecturer')`
-    );
-    stmt.run([username, await bhash(password), name, email, phone]);
-    res.status(201).send({ message: 'Lecturer added successfully' });
+        const stmt = sqliteDB.prepare(
+            `INSERT INTO user (username, password, session_id, csrf_token, name, email, phone, role) VALUES (?, ?, NULL, NULL, ?, ?, ?, 'lecturer')`
+        );
+        const info = stmt.run([username, await bhash(password), name, email, phone]);
+        res.status(201).send({ message: 'Lecturer added successfully', id: info.lastInsertRowid });
     } catch (error) {
-    res.status(500).send({ error: 'Failed to add lecturer' });
+        res.status(500).send({ error: 'Failed to add lecturer' });
     }
 });
