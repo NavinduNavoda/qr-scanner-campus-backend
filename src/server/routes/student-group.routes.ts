@@ -63,6 +63,27 @@ StudentGroupRouter.post("/add-student-to-group", async (req, res) => {
     
 });
 
+StudentGroupRouter.post("/remove-student-from-group", async (req, res) => {
+    const { student_user_id, group_id } = req.body;
+
+    const assignCheckStmt = sqliteDB.prepare(`
+        SELECT COUNT(*) as count FROM student_group_assign WHERE student_user_id = ? AND group_id = ?
+    `);
+    const assignCheckResult: any = assignCheckStmt.get(student_user_id, group_id);
+
+    if (assignCheckResult.count === 0) {
+        res.status(400).json({ message: "Student not assigned to the relevant group" });
+        return;
+    }
+
+    const deleteStmt = sqliteDB.prepare(`
+        DELETE FROM student_group_assign WHERE student_user_id = ? AND group_id = ?
+    `);
+    deleteStmt.run(student_user_id, group_id);
+
+    res.status(200).json({ message: "Student removed from group successfully" });
+});
+
 StudentGroupRouter.get("/get-student-groups", async (req, res) => {
     const stmt = sqliteDB.prepare(`
         SELECT * FROM student_group
@@ -135,31 +156,6 @@ StudentGroupRouter.post("/get-group-name", async (req, res) => {
         res.status(404).json({ message: "Group not found" });
         return;
     }
-
-    res.status(200).json(result);
-});
-
-StudentGroupRouter.post("/get-students-by-group", async (req, res) => {
-    const { group_id } = req.body;
-
-    const groupStmt = sqliteDB.prepare(`
-        SELECT COUNT(*) as count FROM student_group WHERE id = ?
-    `);
-
-    const groupResult: any = groupStmt.get(group_id);
-
-    if (groupResult.count === 0) {
-        res.status(400).json({ message: "Invalid group_id" });
-        return;
-    }
-
-    const stmt = sqliteDB.prepare(`
-        SELECT user.id, user.sc_number, user.name FROM user
-        INNER JOIN student_group_assign ON user.id = student_group_assign.student_user_id
-        WHERE student_group_assign.group_id = ?
-    `);
-
-    const result = stmt.all(group_id);
 
     res.status(200).json(result);
 });
