@@ -120,6 +120,30 @@ StudentGroupRouter.post("/delete-student-group", async (req, res) => {
     res.status(200).json({ message: "Student group deleted successfully" });
 });
 
+StudentGroupRouter.post("/get-students-by-group", async (req, res) => {
+    const { group_id } = req.body;
+
+    const groupStmt = sqliteDB.prepare(`
+        SELECT COUNT(*) as count FROM student_group WHERE id = ?
+    `);
+
+    const groupResult: any = groupStmt.get(group_id);
+
+    if (groupResult.count === 0) {
+        res.status(400).json({ message: "Invalid group_id" });
+        return;
+    }
+
+    const stmt = sqliteDB.prepare(`
+        SELECT user.id, user.sc_number, user.name FROM user
+        INNER JOIN student_group_assign ON user.id = student_group_assign.student_user_id
+        WHERE student_group_assign.group_id = ?
+    `);
+
+    const result = stmt.all(group_id);
+
+    res.status(200).json(result);
+});
 
 StudentGroupRouter.post("/modify-student-group", async (req, res) => {
     const { group_id, new_name } = req.body;
