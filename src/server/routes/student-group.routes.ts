@@ -12,11 +12,11 @@ StudentGroupRouter.post("/add-student-group", async (req, res) => {
     `);
 
     const { name } = req.body;
-    stmt.run(name);
+    const result = stmt.run(name);
 
-    res.status(200).json({message: "Student group added successfully"});
-    
+    res.status(200).json({ message: "Student group added successfully", group_id: result.lastInsertRowid });
 });
+
 
 StudentGroupRouter.post("/add-student-to-group", async (req, res) => {
     
