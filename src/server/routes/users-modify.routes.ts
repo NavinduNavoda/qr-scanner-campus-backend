@@ -36,6 +36,7 @@ UserModifyRouter.put('/update-student/:id', async (req, res) => {
 UserModifyRouter.put('/update-lecturer/:id', async (req, res) => {
     const { id } = req.params;
     const { name, email, phone } = req.body;
+    console.log(id, name, email, phone);
     try {
         const stmt = sqliteDB.prepare(
             `UPDATE user SET name = ?, email = ?, phone = ? WHERE id = ? AND role = 'lecturer'`

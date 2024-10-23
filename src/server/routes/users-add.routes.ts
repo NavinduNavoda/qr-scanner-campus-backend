@@ -11,10 +11,11 @@ UserAddRouter.post('/add-demo', async (req, res) => {
         const stmt = sqliteDB.prepare(
             `INSERT INTO user (username, password, session_id, csrf_token, name, email, phone, role) VALUES (?, ?, NULL, NULL, ?, ?, ?, 'demo')`
     );
-    stmt.run([username,  await bhash(password), name, email, phone]);
-    res.status(201).send({ message: 'Demo added successfully' });
+    const info = stmt.run([username, await bhash(password), name, email, phone]);
+    res.status(201).send({ message: 'Demo added successfully', id: info.lastInsertRowid  });
     } catch (error) {
     res.status(500).send({ error: 'Failed to add demo' });
+    console.log(error);
     }
 });
 
@@ -24,8 +25,8 @@ UserAddRouter.post('/add-student', async (req, res) => {
     const stmt = sqliteDB.prepare(
         `INSERT INTO user (username, password, session_id, csrf_token, name, email, phone, sc_number, role) VALUES (?, ?, NULL, NULL, ?, ?, ?, ?, 'student')`
     );
-    stmt.run([username, await bhash(password), name, email, phone, sc_number]);
-    res.status(201).send({ message: 'Student added successfully' });
+    const info = stmt.run([username, await bhash(password), name, email, phone, sc_number]);
+    res.status(201).send({ message: 'Student added successfully', id: info.lastInsertRowid });
     } catch (error) {
     res.status(500).send({ error: 'Failed to add student' });
     }
