@@ -30,3 +30,15 @@ UserDelRouter.post('/delete-student', async (req, res) => {
     }
 });
 
+UserDelRouter.post('/delete-by-id', async (req, res) => {
+    const { id } = req.body;
+    try {
+        const stmt = sqliteDB.prepare(
+            `DELETE FROM user WHERE id = ?`
+        );
+        stmt.run(id);
+        res.status(201).send({ message: 'User deleted successfully by ID' });
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to delete user by ID' });
+    }
+});
