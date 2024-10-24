@@ -243,7 +243,7 @@ LectureRouter.post("/get-attendance", async (req, res) => {
                 user.sc_number 
             FROM attendance 
             JOIN user ON attendance.student_user_id = user.id 
-            WHERE attendance.lec_id = ?`
+            WHERE attendance.lec_id = ? AND attendance.attend = 1`
         );
         const attendanceDetails = stmt.all(lec_id);
 
