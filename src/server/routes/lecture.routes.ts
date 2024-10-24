@@ -126,6 +126,43 @@ LectureRouter.post("/get-lectures-by-course-and-date", async (req, res) => {
     }
 });
 
+LectureRouter.post("/get-lectures-by-date-and-start-time", async (req, res) => {
+    const { date, startTime } = req.body;
+
+    if (!date || !startTime) {
+        res.status(400).json({ error: "Date and start time are required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT * FROM lecture WHERE date = ? AND 'from' >= ?`
+        );
+        const result = stmt.all(date, startTime);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch lectures" });
+    }
+});
+
+LectureRouter.post("/get-lectures-by-course-date-and-start-time", async (req, res) => {
+    const { course_id, date, startTime } = req.body;
+
+    if (!course_id || !date || !startTime) {
+        res.status(400).json({ error: "Course ID, date, and start time are required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT * FROM lecture WHERE course_id = ? AND date = ? AND 'from' >= ?`
+        );
+        const result = stmt.all(course_id, date, startTime);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch lectures" });
+    }
+});
 
 LectureRouter.post("/mark-attendance", async (req, res) => {
     const {sc_number, lec_id} = req.body;
@@ -214,5 +251,30 @@ LectureRouter.post("/get-attendance", async (req, res) => {
     } catch (error) {
         console.log("get attendance error", error);
         res.status(500).json({ error: "Failed to fetch attendance" });
+    }
+});
+
+LectureRouter.post("/get-student-group-by-lecture", async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        res.status(400).json({ error: "Lecture ID is required" });
+        return;
+    }
+
+    try {
+        const stmt = sqliteDB.prepare(
+            `SELECT student_group_id FROM lecture WHERE id = ?`
+        );
+        const result = stmt.get(id) as { student_group_id: number };
+
+        if (!result) {
+            res.status(404).json({ error: "Lecture not found" });
+            return;
+        }
+
+        res.status(200).json({ student_group_id: result.student_group_id });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch student group ID" });
     }
 });
