@@ -8,12 +8,12 @@ const AuthRouter = Router();
 AuthRouter.post("/login", async (req, res) => {
     try{
         console.log("[+] req.body: ", req.body);
-        const {sesssion_id, role} = await LoginUser(req.body);
+        const {sesssion_id, role, user_id} = await LoginUser(req.body);
         const csrfToken = createTokenCSRFbySessionId(sesssion_id);
 
         res.cookie("session", sesssion_id, {httpOnly: true, sameSite: "strict", maxAge: 1000 * 60 * 60 * 24 * 2});
         res.cookie("csrf", csrfToken, {sameSite: "strict", maxAge: 1000 * 60 * 60 * 24 * 2});
-        res.status(200).json({message: "Login successful", role: role});
+        res.status(200).json({message: "Login successful", role: role, user_id});
 
     } catch(e){
         console.log("[+] Error: ", e);

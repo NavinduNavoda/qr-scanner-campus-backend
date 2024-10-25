@@ -22,5 +22,5 @@ export const LoginUser = async (values: any) => {
     }
 
     const sesssion_id = await createSession(user.id);
-    return {sesssion_id, role: user.role};
+    return {sesssion_id, role: user.role, user_id: user.id};
 }
