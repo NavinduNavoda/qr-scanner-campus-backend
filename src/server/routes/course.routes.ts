@@ -48,7 +48,7 @@ CourseRouter.put("/update-course/:id", async (req, res) => {
 
 CourseRouter.delete("/delete-course/:courseId", async (req, res) => {
     const stmt = sqliteDB.prepare(`
-        DELETE FROM course WHERE course_id = ?
+        DELETE FROM course WHERE id = ?
     `);
 
     stmt.run(req.params.courseId);
