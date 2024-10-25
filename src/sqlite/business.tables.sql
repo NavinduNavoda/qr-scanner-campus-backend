@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "lecture" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   course_id INTEGER,
   lecture_user_id INTEGER,
-  date TEXT,
+  date DATE,
   "from" DATE,
   "to" DATE,
   student_group_id INTEGER
