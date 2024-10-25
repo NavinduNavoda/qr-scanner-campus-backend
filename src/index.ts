@@ -12,6 +12,7 @@ import { UserDetailsRouter } from './server/routes/users-details.routes';
 import { UserAddRouter } from './server/routes/users-add.routes';
 import { UserDelRouter } from './server/routes/users-delete.routes';
 import { UserModifyRouter } from './server/routes/users-modify.routes';
+import { SingleUserDetailsRouter } from './server/routes/single-user.routes';
 
 const app = express();
 const port = 3000;
@@ -27,6 +28,7 @@ app.use("/auth", AuthRouter);
 
 // routes configurations
 app.use("/", authProtectAboveStudent, StudentRouter);
+app.use("/", authProtectAboveStudent, SingleUserDetailsRouter);
 app.use("/", authProtectAboveDemo, CourseRouter);
 app.use("/", authProtectAboveDemo, LectureRouter);
 app.use("/", authProtectAboveDemo, StudentGroupRouter);
