@@ -108,18 +108,19 @@ LectureRouter.post("/get-lectures-by-course", async (req, res) => {
 });
 
 LectureRouter.post("/get-upcoming-and-ongoing-lectures", async (req, res) => {
-    const { course_id, nowTime, today } = req.body;
+    const { nowTime, today } = req.body;
 
-    if (!course_id || !nowTime || !today) {
+    if (!nowTime || !today) {
         res.status(400).json({ error: "Course ID, nowTime, and today are required" });
         return;
     }
 
     try {
         const stmt = sqliteDB.prepare(
-            `SELECT * FROM lecture WHERE course_id = ? AND (date > ? OR (date = ? AND 'to' > ?)) ORDER BY date, 'from'`
+            `SELECT * FROM lecture WHERE (date > ? OR (date = ? AND 'to' > ?)) ORDER BY date, 'from'`
         );
-        const result = stmt.all(course_id, today, today, nowTime);
+        const result = stmt.all(today, today, nowTime);
+        console.log("upcoming and ongoing", result);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch upcoming and ongoing lectures" });
